@@ -28,7 +28,7 @@ function SendMessage({ scroll }) {
         e.preventDefault()
         const {uid, photoURL} = auth.currentUser
         
-         // -------------아랫 줄이 변경된 코드입니다. meetUUID를 이름으로 갖는 새 컬렉션이 chat 문서 안에 생깁니다. (파이어베이스)------------------
+        // -------------아랫 줄이 변경된 코드입니다. ------------------
         await db.collection('tayongMessage').doc('chat').collection(meetUUID).add({
             text: msg,
             photoURL,
