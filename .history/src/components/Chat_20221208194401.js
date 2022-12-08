@@ -20,13 +20,16 @@ function Chat() {
         .then(data => {
             {
             const meetUUID = (JSON.parse(data['body'])[0].randomKey);
-            db.collection('tayongMessage').doc('chat').collection(meetUUID).orderBy('createdAt').limit(50).onSnapshot(snapshot => {
-                setMessages(snapshot.docs.map(doc => doc.data()))
-                console.log(meetUUID);
-            })
           }
         })
-
+        .then(
+            setTimeout(
+                db.collection('tayongMessage').doc('chat').collection(meetUUID).orderBy('createdAt').limit(50).onSnapshot(snapshot => {
+                    setMessages(snapshot.docs.map(doc => doc.data()))
+                    console.log(meetUUID);
+                })
+                , 3000)
+        );
       }, [])
     
 

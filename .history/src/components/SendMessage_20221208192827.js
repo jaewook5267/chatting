@@ -10,16 +10,7 @@ function SendMessage({ scroll }) {
      // meet key값(=uuid)을 저장하는 곳입니다.
      const [meetUUID, setMeetUUID] = useState("temp uuid");
 
-     const url = ' https://yw1nspc2nl.execute-api.ap-northeast-2.amazonaws.com/dev/sendparticipate';
-     useEffect(() => {
-         fetch(url)
-         .then(res => res.json())
-         .then(data => {
-             {
-             setMeetUUID(JSON.parse(data['body'])[0].randomKey);
-           }
-         });
-       }, [])
+
      
     async function sendMessage(e){
         e.preventDefault()

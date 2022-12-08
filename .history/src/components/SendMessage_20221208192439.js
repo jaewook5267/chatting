@@ -1,5 +1,5 @@
 import { Input, Button } from '@material-ui/core';
-import React, {useState, useParams, useEffect} from 'react';
+import React, {useState, useParams} from 'react';
 import { db, auth } from '../firebase'
 // import firebase from 'firebase';
 import firebase from 'firebase/compat';
@@ -10,14 +10,19 @@ function SendMessage({ scroll }) {
      // meet key값(=uuid)을 저장하는 곳입니다.
      const [meetUUID, setMeetUUID] = useState("temp uuid");
 
-     const url = ' https://yw1nspc2nl.execute-api.ap-northeast-2.amazonaws.com/dev/sendparticipate';
+     let param = useParams();
      useEffect(() => {
-         fetch(url)
+         fetch('https://yw1nspc2nl.execute-api.ap-northeast-2.amazonaws.com/dev/getmeetdetail')
          .then(res => res.json())
          .then(data => {
-             {
-             setMeetUUID(JSON.parse(data['body'])[0].randomKey);
+           var k=0;
+           for (var i = 0; i < JSON.parse(data['body']).length; i++) {
+             if(JSON.parse(data['body'])[i].randomKey==param['*'].split('/')[0]){     // 이제 제목이 아닌 randomKey로 해당 모임 정보를 가져옵니다!
+                 k=i;
+             }
            }
+           setMeetUUID(JSON.parse(data['body'])[k].randomKey);   // randomKey를 meetDetail에서도 받아와서 갖고 있습니다.
+           console.log("chatting Room ID!",{meetUUID});
          });
        }, [])
      

@@ -11,7 +11,7 @@ function Chat() {
 
 
     // meet key값(=uuid)을 저장하는 곳입니다.
-    // const [meetUUID, setMeetUUID] = useState("temp uuid");
+    const [meetUUID, setMeetUUID] = useState("temp uuid");
 
     const url = ' https://yw1nspc2nl.execute-api.ap-northeast-2.amazonaws.com/dev/sendparticipate';
     useEffect(() => {
@@ -19,14 +19,17 @@ function Chat() {
         .then(res => res.json())
         .then(data => {
             {
-            const meetUUID = (JSON.parse(data['body'])[0].randomKey);
-            db.collection('tayongMessage').doc('chat').collection(meetUUID).orderBy('createdAt').limit(50).onSnapshot(snapshot => {
-                setMessages(snapshot.docs.map(doc => doc.data()))
-                console.log(meetUUID);
-            })
+            setMeetUUID(JSON.parse(data['body'])[0].randomKey);
           }
         })
-
+        .then(
+            setTimeout(
+                db.collection('tayongMessage').doc('chat').collection(meetUUID).orderBy('createdAt').limit(50).onSnapshot(snapshot => {
+                    setMessages(snapshot.docs.map(doc => doc.data()))
+                    console.log(meetUUID);
+                })
+                , 3000)
+        );
       }, [])
     
 

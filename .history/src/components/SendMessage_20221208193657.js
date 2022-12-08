@@ -17,6 +17,7 @@ function SendMessage({ scroll }) {
          .then(data => {
              {
              setMeetUUID(JSON.parse(data['body'])[0].randomKey);
+             console.log({meetUUID});
            }
          });
        }, [])
